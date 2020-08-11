@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { spawn } from "child_process";
-import { createWriteStream } from "fs";
+import { access, constants, createWriteStream } from "fs";
 import type { Readable } from "stream";
 import createFdf from "./fdf";
 
@@ -72,6 +70,12 @@ export default {
         extraArguments: string[] | false = ["flatten"]
     ): Promise<Readable> => {
         const promised: Promise<Readable> = new Promise((resolve, reject) => {
+            // Check to see if sourceFile exists!
+            access(sourceFile, constants.F_OK || constants.R_OK, (error) => {
+                if (error)
+                    throw new Error("File does not exist or is not readable");
+            });
+
             // Generate the data from the field values.
             const FDFinput = createFdf(fieldValues);
 

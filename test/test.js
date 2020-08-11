@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /*
  *   File:       pdf.js
  *   Project:    PDF Filler
@@ -48,16 +52,17 @@ test("should use toFile to create a completely filled PDF that is read-only", as
     t.is(roFdf.length, 0);
 });
 
-/*
-test("should use toFile to create a completely filled PDF, but to an invalid path", async (t) => {
+test("should throw when the sourcePDF doesn't exist", async (t) => {
+    await t.throwsAsync(async () => pdfFiller.fillForm("nope.pdf", data));
+    // t.is(error.message, "Error: File does not exist or is not readable");
+});
+
+test.skip("should throw when output is an invalid path", async (t) => {
     const error = await t.throwsAsync(async () => {
-        await pdfFiller
-            .fillFormWithFlatten(source2PDF, _data, true)
-            .toFile("/");
+        await pdfFiller.fillFormWithFlatten(source2PDF, data, true).toFile("/");
     });
     t.is(error, "Error: EISDIR: illegal operation on a directory, open '/'");
 });
-*/
 
 test("should create a FDF template with a null value", (t) => {
     const fdfData = createFdf({
