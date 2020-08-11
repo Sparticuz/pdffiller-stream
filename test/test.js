@@ -64,7 +64,7 @@ test.skip("should throw when output is an invalid path", async (t) => {
     t.is(error, "Error: EISDIR: illegal operation on a directory, open '/'");
 });
 
-test.skip("should create a FDF template with a null value", (t) => {
+test("should create a FDF template with a null value", (t) => {
     const fdfData = createFdf({
         ...data,
         nulval: undefined,
