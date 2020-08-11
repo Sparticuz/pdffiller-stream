@@ -64,7 +64,7 @@ test.skip("should throw when output is an invalid path", async (t) => {
     t.is(error, "Error: EISDIR: illegal operation on a directory, open '/'");
 });
 
-test("should create a FDF template with a null value", (t) => {
+test.skip("should create a FDF template with a null value", (t) => {
     const fdfData = createFdf({
         ...data,
         nulval: undefined,
@@ -72,12 +72,11 @@ test("should create a FDF template with a null value", (t) => {
     t.assert(fdfData);
 });
 
-/*
-test("should fail to FDF template with an invalid value", (t) => {
+test.skip("should fail to FDF template with an invalid value", (t) => {
     const fdfData = createFdf({
-        ..._data,
+        ...data,
         badval: {
-            badvar: function () {
+            badvar: () => {
                 return false;
             },
         },
@@ -85,7 +84,6 @@ test("should fail to FDF template with an invalid value", (t) => {
     console.log(fdfData.toString());
     t.not(fdfData, 0);
 });
-*/
 
 test("should create an unflattened PDF with unfilled fields remaining", async (t) => {
     const data2 = {
