@@ -32,7 +32,7 @@ npm install @sparticuz/pdffiller --save
 #### 1.Fill PDF with existing FDF Data
 
 ````javascript
-import pdfFiller from 'pdffiller-stream';
+import fillForm from '@sparticuz/pdffiller';
 
 const sourcePDF = "test/test.pdf";
 
@@ -47,14 +47,13 @@ const data = {
     "nascar" : "Off"
 };
 
-pdfFiller.fillForm(sourcePDF, data)
+fillForm(sourcePDF, data)
     .then((outputStream) => {
         // use the outputStream here;
         // will be instance of stream.Readable
     }).catch((err) => {
         console.log(err);
     });
-
 ````
 
 This will take the test.pdf, fill the fields with the data values and stream a filled in, read-only PDF.
@@ -62,7 +61,7 @@ This will take the test.pdf, fill the fields with the data values and stream a f
 A chainable convenience method `toFile` is attached to the response, if you simply wish to write the stream to a file with no fuss:
 
 ```javascript
-pdfFiller.fillForm(sourcePDF, data)
+fillForm(sourcePDF, data)
     .toFile('outputFile.PDF')
     .then(() => {
         // your file has been written
@@ -74,7 +73,7 @@ pdfFiller.fillForm(sourcePDF, data)
 You could also stream the resulting data directly to AWS, doing something like this with an instantiated `s3` client:
 
 ```javascript
-pdfFiller.fillForm(sourcePDF, data)
+fillForm(sourcePDF, data)
     .then((outputStream) => {
         const Body = outputStream;
         const Bucket = 'some-bucket';
@@ -100,7 +99,7 @@ Calling `fillForm()` with `shouldFlatten = false` will leave any unmapped fields
 
 const shouldFlatten = false;
 
-pdfFiller.fillForm(sourcePDF, data, shouldFlatten)
+fillForm(sourcePDF, data, shouldFlatten)
     .then((outputStream) {
         // etc, same as above
     })
@@ -110,14 +109,14 @@ pdfFiller.fillForm(sourcePDF, data, shouldFlatten)
 #### 2. Generate FDF Template from PDF
 
 ````javascript
-import pdfFiller from 'pdffiller-stream';
+import { generateFDFTemplate } from '@sparticuz/pdffiller';
 
 const sourcePDF = "test/test.pdf";
 
 // Override the default field name regex. Default: /FieldName: ([^\n]*)/
 const nameRegex = null;
 
-const FDF_data = pdfFiller.generateFDFTemplate(sourcePDF, nameRegex).then((fdfData) => {
+const FDF_data = generateFDFTemplate(sourcePDF, nameRegex).then((fdfData) => {
     console.log(fdfData);
 }).catch((err) => {
     console.log(err);
@@ -141,7 +140,7 @@ This will print out this
 
 #### 3. Map form fields to PDF fields
 ````javascript
-import pdfFiller from 'pdffiller-stream';
+import { mapForm2PDF } from '@sparticuz/pdffiller';
 
 const conversionMap = {
 
@@ -166,7 +165,7 @@ const FormFields = {
     "nascarField" : "Off"
 };
 
-pdfFiller.mapForm2PDF(data, convMap).then((mappedFields) => {
+mapForm2PDF(data, convMap).then((mappedFields) => {
     console.log(mappedFields);
 });
 ````
@@ -189,7 +188,7 @@ This will print out the object below.
 
 #### 4. Convert fieldJson to FDF data
 ````javascript
-import pdfFiller from 'pdffiller-stream';
+import { convFieldJson2FDF } from '@sparticuz/pdffiller';
 
 const fieldJson = [
     {
@@ -235,7 +234,7 @@ const fieldJson = [
 ];
 
 
-const FDFData = pdfFiller.convFieldJson2FDF(data);
+const FDFData = convFieldJson2FDF(data);
 
 console.log(FDFData)
 ````
