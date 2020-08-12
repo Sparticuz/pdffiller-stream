@@ -53,8 +53,10 @@ test("should use toFile to create a completely filled PDF that is read-only", as
 });
 
 test("should throw when the sourcePDF doesn't exist", async (t) => {
-    await t.throwsAsync(async () => pdfFiller.fillForm("nope.pdf", data));
-    // t.is(error.message, "Error: File does not exist or is not readable");
+    const error = await t.throwsAsync(() =>
+        pdfFiller.fillForm("nope.pdf", data)
+    );
+    t.is(error.message, "File does not exist or is not readable");
 });
 
 test.skip("should throw when output is an invalid path", async (t) => {

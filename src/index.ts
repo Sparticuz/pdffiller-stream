@@ -73,7 +73,7 @@ export default {
             // Check to see if sourceFile exists!
             access(sourceFile, constants.F_OK || constants.R_OK, (error) => {
                 if (error)
-                    throw new Error("File does not exist or is not readable");
+                    reject(new Error("File does not exist or is not readable"));
             });
 
             // Generate the data from the field values.
