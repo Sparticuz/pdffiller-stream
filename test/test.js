@@ -12,12 +12,10 @@
 const test = require("ava");
 const { Readable } = require("stream");
 const fillForm = require("..").default;
+const { convFieldJson2FDF, generateFDFTemplate, mapForm2PDF } = require("..");
+const generateFieldJson = require("../dist/generate-field-json").default;
 const createFdf = require("../dist/fdf").default;
 const { test1 } = require("./_expected-data");
-const convFieldJson2FDF = require("../dist/convert-field-json-to-fdf").default;
-const generateFDFTemplate = require("../dist/generate-fdf-template").default;
-const generateFieldJson = require("../dist/generate-field-json").default;
-const mapForm2PDF = require("../dist/map-form-to-pdf").default;
 
 const sourcePDF = "test/test.pdf";
 const source2PDF = "test/test1.pdf";

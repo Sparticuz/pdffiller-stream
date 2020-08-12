@@ -1,7 +1,12 @@
 import { spawn } from "child_process";
 import { access, constants, createWriteStream } from "fs";
 import type { Readable } from "stream";
+import convFieldJson2FDF from "./convert-field-json-to-fdf";
 import createFdf from "./fdf";
+import generateFDFTemplate from "./generate-fdf-template";
+import mapForm2PDF from "./map-form-to-pdf";
+// Export these functions so everyone has access to them
+export { generateFDFTemplate, convFieldJson2FDF, mapForm2PDF };
 
 /**
  * convenience chainable method for writing to a file (see examples)
