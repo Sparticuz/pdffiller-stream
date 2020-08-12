@@ -1,4 +1,7 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/**
+ * Escapes backslashes and parens, also deals with null or undefined values
+ * @param value The value that needs to be escaped
+ */
 const escapeString = (value: string | null | undefined) => {
     if (value === null || value === undefined) {
         return "";
@@ -12,6 +15,11 @@ const escapeString = (value: string | null | undefined) => {
     ).toString("utf8");
 };
 
+/**
+ * Converts a JSON object to a FDF document
+ * @param data The JSON object
+ * @returns FDF document in a Buffer
+ */
 export default (data: never): Buffer => {
     // only this sequence in FDF header requires char codes
     const header = Buffer.from(
@@ -26,18 +34,14 @@ export default (data: never): Buffer => {
     let body = Buffer.from([]);
 
     for (const name of Object.keys(data)) {
-        try {
-            body = Buffer.concat([
-                body,
-                Buffer.from(
-                    `<<\n/T (${escapeString(name)})\n/V (${escapeString(
-                        data[name]
-                    )})\n>>\n`
-                ),
-            ]);
-        } catch {
-            throw new Error(`Cannot escape string: '${name}: ${data[name]}'.`);
-        }
+        body = Buffer.concat([
+            body,
+            Buffer.from(
+                `<<\n/T (${escapeString(name)})\n/V (${escapeString(
+                    data[name]
+                )})\n>>\n`
+            ),
+        ]);
     }
 
     const footer = Buffer.from(

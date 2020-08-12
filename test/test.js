@@ -11,9 +11,13 @@
 
 const test = require("ava");
 const { Readable } = require("stream");
-const pdfFiller = require("..").default;
+const fillForm = require("..").default;
 const createFdf = require("../dist/fdf").default;
 const { test1 } = require("./_expected-data");
+const convFieldJson2FDF = require("../dist/convert-field-json-to-fdf").default;
+const generateFDFTemplate = require("../dist/generate-fdf-template").default;
+const generateFieldJson = require("../dist/generate-field-json").default;
+const mapForm2PDF = require("../dist/map-form-to-pdf").default;
 
 const sourcePDF = "test/test.pdf";
 const source2PDF = "test/test1.pdf";
@@ -38,7 +42,7 @@ const data = {
 };
 
 test("should return a readable stream when creating a pdf from test.pdf with filled data", async (t) => {
-    const pdf = await pdfFiller.fillForm(sourcePDF, data);
+    const pdf = await fillForm(sourcePDF, data);
     if (pdf instanceof Readable) {
         t.pass();
     } else {
@@ -47,21 +51,19 @@ test("should return a readable stream when creating a pdf from test.pdf with fil
 });
 
 test("should use toFile to create a completely filled PDF that is read-only", async (t) => {
-    await pdfFiller.fillForm(sourcePDF, data).toFile(destination2PDF);
-    const roFdf = await pdfFiller.generateFieldJson(destination2PDF);
+    await fillForm(sourcePDF, data).toFile(destination2PDF);
+    const roFdf = await generateFieldJson(destination2PDF);
     t.is(roFdf.length, 0);
 });
 
 test("should throw when the sourcePDF doesn't exist", async (t) => {
-    const error = await t.throwsAsync(() =>
-        pdfFiller.fillForm("nope.pdf", data)
-    );
+    const error = await t.throwsAsync(() => fillForm("nope.pdf", data));
     t.is(error.message, "File does not exist or is not readable");
 });
 
 test.skip("should throw when output is an invalid path", async (t) => {
-    const error = await t.throwsAsync(async () => {
-        await pdfFiller.fillFormWithFlatten(source2PDF, data, true).toFile("/");
+    const error = await t.throwsAsync(() => {
+        fillForm(source2PDF, data).toFile("/");
     });
     t.is(error, "Error: EISDIR: illegal operation on a directory, open '/'");
 });
@@ -74,26 +76,13 @@ test("should create a FDF template with a null value", (t) => {
     t.assert(fdfData);
 });
 
-test.skip("should fail to FDF template with an invalid value", (t) => {
-    const fdfData = createFdf({
-        ...data,
-        badval: {
-            badvar: () => {
-                return false;
-            },
-        },
-    });
-    console.log(fdfData.toString());
-    t.not(fdfData, 0);
-});
-
 test("should create an unflattened PDF with unfilled fields remaining", async (t) => {
     const data2 = {
         first_name: "Jerry",
     };
 
-    await pdfFiller.fillForm(sourcePDF, data2, false).toFile(destination3PDF);
-    const rwFdf = await pdfFiller.generateFieldJson(destination3PDF);
+    await fillForm(sourcePDF, data2, false).toFile(destination3PDF);
+    const rwFdf = await generateFieldJson(destination3PDF);
     t.not(rwFdf.length, 0);
 });
 
@@ -104,10 +93,8 @@ test("should handle expanded utf characters and diacritics", async (t) => {
         last_name: "العقائدية الأخرى",
     };
 
-    await pdfFiller
-        .fillForm(sourcePDF, diacriticsData, false)
-        .toFile(destination4PDF);
-    const fdf = await pdfFiller.generateFieldJson(destination4PDF);
+    await fillForm(sourcePDF, diacriticsData, false).toFile(destination4PDF);
+    const fdf = await generateFieldJson(destination4PDF);
     t.not(fdf.length, 0);
 });
 
@@ -163,12 +150,12 @@ test("should generate form field JSON as expected", async (t) => {
         },
     ];
 
-    const fdf = await pdfFiller.generateFieldJson(sourcePDF);
+    const fdf = await generateFieldJson(sourcePDF);
     t.deepEqual(fdf, expected2);
 });
 
 test("should generate another form field JSON with no errors", async (t) => {
-    const fdf = await pdfFiller.generateFieldJson(source2PDF);
+    const fdf = await generateFieldJson(source2PDF);
     t.deepEqual(fdf, test1.form_fields);
 });
 
@@ -183,12 +170,12 @@ test("should generate a FDF Template as expected", async (t) => {
         last_name: "",
         nascar: "",
     };
-    const fdf = await pdfFiller.generateFDFTemplate(sourcePDF);
+    const fdf = await generateFDFTemplate(sourcePDF);
     t.deepEqual(fdf, expected3);
 });
 
 test("should generate another FDF Template with no errors", async (t) => {
-    const fdf = await pdfFiller.generateFDFTemplate(source2PDF);
+    const fdf = await generateFDFTemplate(source2PDF);
     t.deepEqual(fdf, test1.fdfTemplate);
 });
 
@@ -247,7 +234,7 @@ test("Should generate an corresponding FDF object", (t) => {
         },
     ];
 
-    const FDFData = pdfFiller.convFieldJson2FDF(data2);
+    const FDFData = convFieldJson2FDF(data2);
     t.deepEqual(FDFData, expected4);
 });
 
@@ -316,6 +303,6 @@ test("Should convert formJson to FDF data as expected", (t) => {
         last_name: "John",
         nascar: "Off",
     };
-    const convertedFDF = pdfFiller.mapForm2PDF(data3, convMap);
+    const convertedFDF = mapForm2PDF(data3, convMap);
     t.deepEqual(convertedFDF, expected5);
 });
