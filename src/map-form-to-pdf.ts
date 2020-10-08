@@ -7,7 +7,7 @@ const mapKeys = (
     iteratee: (
         value: unknown,
         key: string | number,
-        object: Record<string, string>
+        iObject: Record<string, string>
     ) => string
 ) => {
     const result: Record<string, string> = {};
