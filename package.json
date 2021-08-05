@@ -4,7 +4,7 @@
     "type": "git",
     "url": "https://github.com/Sparticuz/pdffiller-stream.git"
   },
-  "version": "3.1.4",
+  "version": "3.2.0",
   "private": false,
   "description": "Take an existing PDF Form and data and PDF Filler will create a new PDF with all given fields populated.",
   "main": "dist/index.js",
