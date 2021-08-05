@@ -10,6 +10,9 @@ export { generateFDFTemplate, convFieldJson2FDF, mapForm2PDF };
 
 /**
  * convenience chainable method for writing to a file (see examples)
+ * @param promised
+ * @param path
+ * @returns a boolean
  * */
 const toFile = (
     promised: Promise<Readable>,
@@ -30,6 +33,12 @@ const toFile = (
     });
 };
 
+/**
+ * @param sourceFile
+ * @param fieldValues
+ * @param extraArguments
+ * @returns A promise of a Readable stream
+ */
 export default (
     sourceFile: string,
     fieldValues: never,
@@ -76,8 +85,7 @@ export default (
     });
 
     // bind convenience method toFile for chaining
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // @ts-expect-error We are adding toFile to the promise
     promised.toFile = toFile.bind(undefined, promised);
     return promised;
 };

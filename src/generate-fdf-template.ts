@@ -2,6 +2,9 @@ import generateFieldJson from "./generate-field-json";
 
 /**
  * Generates an object with key/value pairs
+ * @param sourceFile
+ * @param nameRegex
+ * @returns A json object
  */
 export default async (
     sourceFile: string,

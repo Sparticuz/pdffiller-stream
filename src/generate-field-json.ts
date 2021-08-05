@@ -10,6 +10,9 @@ export interface FormField {
 
 /**
  * Extracts the Form Fields from a PDF Form
+ * @param sourceFile
+ * @param nameRegex
+ * @returns A FormField object
  */
 export default (sourceFile: string, nameRegex: never): Promise<FormField[]> => {
     let regName = /FieldName: ([^\n]*)/;
