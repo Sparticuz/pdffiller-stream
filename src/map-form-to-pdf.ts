@@ -43,11 +43,8 @@ export default (
     formFields: FormField[],
     convMap: Record<string, string>
 ): Record<string, string> => {
-    // First, get the field json.
-    let temporaryFDFData = convertFieldJsonToFDF(formFields);
-
-    temporaryFDFData = mapKeys(
-        temporaryFDFData,
+    return mapKeys(
+        convertFieldJsonToFDF(formFields),
         (_value: unknown, key: string | number) => {
             if (Object.prototype.hasOwnProperty.call(convMap, key)) {
                 // This is an acceptable risk. We are assuming the developer knows the PDF being used.
@@ -57,5 +54,4 @@ export default (
             return key as string;
         }
     );
-    return temporaryFDFData;
 };
