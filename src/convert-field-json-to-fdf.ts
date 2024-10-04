@@ -4,7 +4,9 @@ import type { FormField } from "./generate-field-json.js";
  * @param formFields An array of Form Fields
  * @returns An object with converted Form Fields
  */
-export default (formFields: FormField[]): Record<string, string> => {
+export const convertFieldJsonToFdf = (
+  formFields: FormField[],
+): Record<string, string> => {
   const fields: Record<string, string> = {};
   for (const row of formFields) {
     if (typeof row.fieldValue === "boolean") {
@@ -15,3 +17,4 @@ export default (formFields: FormField[]): Record<string, string> => {
   }
   return fields;
 };
+export default convertFieldJsonToFdf;

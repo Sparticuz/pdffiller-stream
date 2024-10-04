@@ -10,8 +10,8 @@ const escapeString = (value: string | null | undefined) => {
     value
       .toString()
       .replaceAll("\\", "\\\\")
-      .replaceAll("(", "\\(")
-      .replaceAll(")", "\\)")
+      .replaceAll("(", String.raw`\(`)
+      .replaceAll(")", String.raw`\)`),
   ).toString("utf8");
 };
 
@@ -20,7 +20,9 @@ const escapeString = (value: string | null | undefined) => {
  * @param data The JSON object
  * @returns FDF document in a Buffer
  */
-export default (data: Record<string, string>): Buffer => {
+export const fdf = (
+  data: Record<string, string | null | undefined>,
+): Buffer => {
   // only this sequence in FDF header requires char codes
   const header = Buffer.from(
     `%FDF-1.2\n${
@@ -28,7 +30,7 @@ export default (data: Record<string, string>): Buffer => {
       String.fromCodePoint(227) +
       String.fromCodePoint(207) +
       String.fromCodePoint(211)
-    }\n1 0 obj \n<<\n/FDF \n<<\n/Fields [\n`
+    }\n1 0 obj \n<<\n/FDF \n<<\n/Fields [\n`,
   );
 
   let body = Buffer.from([]);
@@ -39,15 +41,16 @@ export default (data: Record<string, string>): Buffer => {
       Buffer.from(
         `<<\n/T (${escapeString(name)})\n/V (${escapeString(
           // eslint-disable-next-line security/detect-object-injection
-          data[name]
-        )})\n>>\n`
+          data[name],
+        )})\n>>\n`,
       ),
     ]);
   }
 
   const footer = Buffer.from(
-    `]\n>>\n>>\nendobj \ntrailer\n\n<<\n/Root 1 0 R\n>>\n%%EOF\n`
+    `]\n>>\n>>\nendobj \ntrailer\n\n<<\n/Root 1 0 R\n>>\n%%EOF\n`,
   );
 
   return Buffer.concat([header, body, footer]);
 };
+export default fdf;

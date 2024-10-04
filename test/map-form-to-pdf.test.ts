@@ -1,12 +1,14 @@
-import test from "ava";
+import { expect, test } from "vitest";
+
 import type { FormField } from "../src/generate-field-json.js";
+
 import mapFormToPdf from "../src/map-form-to-pdf.js";
 
-test("Should convert formJson to FDF data as expected", (t) => {
+test("Should convert formJson to FDF data as expected", () => {
   const convMap = {
-    Date: "date",
     baseballField: "baseball",
     bballField: "basketball",
+    Date: "date",
     firstName: "first_name",
     footballField: "football",
     hockeyField: "hockey",
@@ -68,5 +70,5 @@ test("Should convert formJson to FDF data as expected", (t) => {
     nascar: "Off",
   };
   const convertedFDF = mapFormToPdf(data, convMap);
-  t.deepEqual(convertedFDF, expected);
+  expect(convertedFDF).toEqual(expected);
 });

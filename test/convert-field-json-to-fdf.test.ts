@@ -1,8 +1,10 @@
-import test from "ava";
-import convertFieldJsonToFdf from "../src/convert-field-json-to-fdf.js";
+import { expect, test } from "vitest";
+
 import type { FormField } from "../src/generate-field-json.js";
 
-test("Should change the boolean to a 'Yes/Off'", (t) => {
+import convertFieldJsonToFdf from "../src/convert-field-json-to-fdf.js";
+
+test("Should change the boolean to a 'Yes/Off'", () => {
   const expected = {
     baseball: "Yes",
     basketball: "Off",
@@ -58,5 +60,5 @@ test("Should change the boolean to a 'Yes/Off'", (t) => {
   ] as FormField[];
 
   const results = convertFieldJsonToFdf(input);
-  t.deepEqual(results, expected);
+  expect(results).toEqual(expected);
 });
