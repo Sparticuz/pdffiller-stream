@@ -1,6 +1,7 @@
 MIT License (MIT)
 
-This Fork: Copyright (c) 2017 Jason Phillips
+Typescript fork: Copyright (c) 2020-2024 Kyle McNally
+Stream Fork: Copyright (c) 2017 Jason Phillips
 Original Library: Copyright (c) 2014-2016 John Taylor
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
