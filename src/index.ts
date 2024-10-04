@@ -1,6 +1,8 @@
+import type { Readable } from "node:stream";
+
 import { spawn } from "node:child_process";
 import { access, constants, createWriteStream } from "node:fs";
-import type { Readable } from "node:stream";
+
 import createFdf from "./fdf.js";
 
 /**
@@ -22,7 +24,10 @@ const toFile = (promised: Promise<Readable>, path: string): Promise<boolean> =>
           resolve(true);
         });
       })
-      .catch((error) => reject(error));
+      .catch((error: unknown) => {
+        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+        reject(error);
+      });
   });
 
 /**
@@ -32,10 +37,10 @@ const toFile = (promised: Promise<Readable>, path: string): Promise<boolean> =>
  * @param extraArguments
  * @returns A promise of a Readable stream
  */
-export default (
+const FillPDF = (
   sourceFile: string,
   fieldValues: Record<string, string>,
-  extraArguments: string[] | false = ["flatten"]
+  extraArguments: false | string[] = ["flatten"],
 ): Promise<Readable> => {
   const promised = new Promise<Readable>((resolve, reject) => {
     // Check to see if sourceFile exists!
@@ -56,10 +61,18 @@ export default (
 
     const childProcess = spawn("pdftk", runArguments);
 
-    childProcess.on("error", (error) => reject(error));
-    childProcess.stdout.on("error", (error) => reject(error));
-    childProcess.stderr.on("error", (error) => reject(error));
-    childProcess.stdin.on("error", (error) => reject(error));
+    childProcess.on("error", (error) => {
+      reject(error);
+    });
+    childProcess.stdout.on("error", (error) => {
+      reject(error);
+    });
+    childProcess.stderr.on("error", (error) => {
+      reject(error);
+    });
+    childProcess.stdin.on("error", (error) => {
+      reject(error);
+    });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sendData = (chunk: any) => {
@@ -81,7 +94,8 @@ export default (
   promised.toFile = toFile.bind(undefined, promised);
   return promised;
 };
+export default FillPDF;
 
-export { default as generateFDFTemplate } from "./generate-fdf-template.js";
 export { default as convFieldJson2FDF } from "./convert-field-json-to-fdf.js";
+export { default as generateFDFTemplate } from "./generate-fdf-template.js";
 export { default as mapForm2PDF } from "./map-form-to-pdf.js";

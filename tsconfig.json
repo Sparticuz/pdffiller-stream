@@ -1,14 +1,16 @@
 {
-  "extends": ["@tsconfig/node18/tsconfig", "@tsconfig/strictest/tsconfig"],
+  "extends": ["@tsconfig/node20/tsconfig", "@tsconfig/strictest/tsconfig"],
   "compilerOptions": {
     "declaration": true,
+    "declarationMap": true,
     "exactOptionalPropertyTypes": false,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noUnusedLocals": false,
     "outDir": "dist",
-    "removeComments": false,
-    "sourceMap": true
+    "sourceMap": true,
+    "verbatimModuleSyntax": true
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", "vitest.config.ts"],
+  "exclude": ["dist", "node_modules"]
 }

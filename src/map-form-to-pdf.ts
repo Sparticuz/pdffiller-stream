@@ -1,4 +1,5 @@
 import type { FormField } from "./generate-field-json.js";
+
 import convertFieldJsonToFDF from "./convert-field-json-to-fdf.js";
 
 // https://github.com/lodash/lodash/blob/master/mapKey.js
@@ -22,9 +23,9 @@ const mapKeys = (
   object: Record<string, string>,
   iteratee: (
     value: unknown,
-    key: string | number,
-    indexObject: Record<string, string>
-  ) => string
+    key: number | string,
+    indexObject: Record<string, string>,
+  ) => string,
 ) => {
   const result: Record<string, string> = {};
   for (const [key, value] of Object.entries(object)) {
@@ -39,19 +40,20 @@ const mapKeys = (
  * @param {FormField[]} formFields - The fields in the PDF
  * @param {*} convMap - The conversion matrix
  */
-export default (
+export const mapFormToPdf = (
   formFields: FormField[],
-  convMap: Record<string, string>
+  convMap: Record<string, string>,
 ): Record<string, string> =>
   mapKeys(
     convertFieldJsonToFDF(formFields),
     // @ts-expect-error I'm not sure why this is not type safe
-    (value: unknown, key: string | number) => {
+    (value: unknown, key: number | string) => {
       if (Object.prototype.hasOwnProperty.call(convMap, key)) {
         // This is an acceptable risk. We are assuming the developer knows the PDF being used.
         // eslint-disable-next-line security/detect-object-injection
         return convMap[key];
       }
       return key as string;
-    }
+    },
   );
+export default mapFormToPdf;

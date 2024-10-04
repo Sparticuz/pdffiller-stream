@@ -5,5 +5,5 @@
     "removeComments": true,
     "sourceMap": false
   },
-  "exclude": ["test"]
+  "exclude": ["test", "vitest.config.ts"]
 }

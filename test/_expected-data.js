@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys */
+/* eslint-disable perfectionist/sort-objects */
 export const formFields = [
   {
     fieldDefault: "",
