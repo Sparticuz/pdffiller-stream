@@ -1,6 +1,6 @@
 import type { FormField } from "./generate-field-json.js";
 
-import convertFieldJsonToFDF from "./convert-field-json-to-fdf.js";
+import { convertFieldJsonToFdf } from "./convert-field-json-to-fdf.js";
 
 // https://github.com/lodash/lodash/blob/master/mapKey.js
 /**
@@ -45,7 +45,7 @@ export const mapFormToPdf = (
   convMap: Record<string, string>,
 ): Record<string, string> =>
   mapKeys(
-    convertFieldJsonToFDF(formFields),
+    convertFieldJsonToFdf(formFields),
     // @ts-expect-error I'm not sure why this is not type safe
     (value: unknown, key: number | string) => {
       if (Object.prototype.hasOwnProperty.call(convMap, key)) {
@@ -56,4 +56,3 @@ export const mapFormToPdf = (
       return key as string;
     },
   );
-export default mapFormToPdf;

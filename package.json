@@ -28,20 +28,19 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist/** && tsc -p tsconfig.build.json",
-    "lint": "eslint \"**/*.?(c|m)[jt]s?(x)\"",
+    "lint": "eslint .",
     "test": "mkdir -p test/out && vitest run --coverage"
   },
   "devDependencies": {
-    "@sparticuz/eslint-config": "^9.0.4",
-    "@tsconfig/node20": "^20.1.4",
-    "@tsconfig/strictest": "^2.0.5",
-    "@types/node": "^20.16.10",
-    "@vitest/coverage-v8": "^2.1.2",
-    "eslint": "^9.11.1",
-    "prettier": "^3.3.3",
-    "typescript": "^5.6.2",
-    "typescript-eslint": "^8.8.0",
-    "vitest": "^2.1.2"
+    "@sparticuz/eslint-config": "^9.3.10",
+    "@tsconfig/node20": "^20.1.6",
+    "@tsconfig/strictest": "^2.0.6",
+    "@types/node": "^20.19.17",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.36.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=16"

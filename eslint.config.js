@@ -1,7 +1,7 @@
 import myConfig from "@sparticuz/eslint-config";
-import tseslint from "typescript-eslint";
+import { defineConfig } from "eslint/config";
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: ["dist", "coverage", "node_modules"],
   },

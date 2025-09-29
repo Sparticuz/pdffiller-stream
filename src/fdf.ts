@@ -8,7 +8,6 @@ const escapeString = (value: string | null | undefined) => {
   }
   return Buffer.from(
     value
-      .toString()
       .replaceAll("\\", "\\\\")
       .replaceAll("(", String.raw`\(`)
       .replaceAll(")", String.raw`\)`),
@@ -20,7 +19,7 @@ const escapeString = (value: string | null | undefined) => {
  * @param data The JSON object
  * @returns FDF document in a Buffer
  */
-export const fdf = (
+export const createFdf = (
   data: Record<string, string | null | undefined>,
 ): Buffer => {
   // only this sequence in FDF header requires char codes
@@ -53,4 +52,3 @@ export const fdf = (
 
   return Buffer.concat([header, body, footer]);
 };
-export default fdf;

@@ -2,7 +2,7 @@ import { expect, test } from "vitest";
 
 import type { FormField } from "../src/generate-field-json.js";
 
-import mapFormToPdf from "../src/map-form-to-pdf.js";
+import { mapFormToPdf } from "../src/map-form-to-pdf.js";
 
 test("Should convert formJson to FDF data as expected", () => {
   const convMap = {

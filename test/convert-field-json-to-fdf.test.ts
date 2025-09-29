@@ -2,7 +2,7 @@ import { expect, test } from "vitest";
 
 import type { FormField } from "../src/generate-field-json.js";
 
-import convertFieldJsonToFdf from "../src/convert-field-json-to-fdf.js";
+import { convertFieldJsonToFdf } from "../src/convert-field-json-to-fdf.js";
 
 test("Should change the boolean to a 'Yes/Off'", () => {
   const expected = {

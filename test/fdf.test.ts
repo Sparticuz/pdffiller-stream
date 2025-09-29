@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 
-import createFdf from "../src/fdf.js";
+import { createFdf } from "../src/fdf.js";
 
 test("should create a FDF template and not error with a null value", () => {
   expect(

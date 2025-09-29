@@ -1,11 +1,10 @@
 import { Readable } from "node:stream";
 import { expect, test } from "vitest";
 
-import fillForm from "../src/index.js";
-
 // generateFieldJson is just used here to verify that form has flattened.
 // If it's flattened, we'll assume it was filled out properly.
-import generateFieldJson from "../src/generate-field-json.js";
+import { generateFieldJson } from "../src/generate-field-json.js";
+import fillForm from "../src/index.js";
 
 const sourcePDF = "test/test.pdf";
 

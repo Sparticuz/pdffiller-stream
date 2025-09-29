@@ -1,4 +1,4 @@
-import generateFieldJson from "./generate-field-json.js";
+import { generateFieldJson } from "./generate-field-json.js";
 
 /**
  * Generates an object with key/value pairs
@@ -15,4 +15,3 @@ export const generateFdfTemplate = async (
   }
   return json;
 };
-export default generateFdfTemplate;

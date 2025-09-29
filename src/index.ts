@@ -3,7 +3,7 @@ import type { Readable } from "node:stream";
 import { spawn } from "node:child_process";
 import { access, constants, createWriteStream } from "node:fs";
 
-import createFdf from "./fdf.js";
+import { createFdf } from "./fdf.js";
 
 /**
  * convenience chainable method for writing to a file (see examples)
@@ -96,6 +96,15 @@ const FillPDF = (
 };
 export default FillPDF;
 
-export { default as convFieldJson2FDF } from "./convert-field-json-to-fdf.js";
-export { default as generateFDFTemplate } from "./generate-fdf-template.js";
-export { default as mapForm2PDF } from "./map-form-to-pdf.js";
+export {
+  convertFieldJsonToFdf,
+  convertFieldJsonToFdf as convFieldJson2FDF,
+} from "./convert-field-json-to-fdf.js";
+export {
+  generateFdfTemplate,
+  generateFdfTemplate as generateFDFTemplate,
+} from "./generate-fdf-template.js";
+export {
+  mapFormToPdf as mapForm2PDF,
+  mapFormToPdf,
+} from "./map-form-to-pdf.js";

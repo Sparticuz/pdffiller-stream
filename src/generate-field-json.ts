@@ -21,7 +21,7 @@ const getFieldOptions = (field: string): string[] => {
       options.push(/FieldStateOption: ([^\n]*)/.exec(match)?.[1]?.trim()!);
     }
   }
-  return options.sort();
+  return options.sort((a, b) => a.localeCompare(b));
 };
 
 /**
@@ -78,4 +78,3 @@ export const generateFieldJson = (sourceFile: string): Promise<FormField[]> => {
     });
   });
 };
-export default generateFieldJson;

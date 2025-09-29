@@ -17,4 +17,3 @@ export const convertFieldJsonToFdf = (
   }
   return fields;
 };
-export default convertFieldJsonToFdf;

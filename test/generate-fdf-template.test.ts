@@ -1,6 +1,6 @@
-import {expect, test} from 'vitest';
+import { expect, test } from "vitest";
 
-import generateFdfTemplate from "../src/generate-fdf-template.js";
+import { generateFdfTemplate } from "../src/generate-fdf-template.js";
 import { fdfTemplate } from "./_expected-data.js";
 
 const sourcePDF = "test/test.pdf";
