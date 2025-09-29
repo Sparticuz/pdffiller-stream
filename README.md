@@ -97,6 +97,20 @@ fillForm(sourcePDF, data, shouldFlatten)
     })
 ```
 
+#### 1a. UTF-8 Characters in PDF forms
+
+In order to have accents in the form fields of a form, `pdftk` needs the `needs_appearances` flag appended. Unfortunantly, if that flag is added, `flatten` is unable to be used. (Bug here: https://gitlab.com/pdftk-java/pdftk/-/issues/128)
+
+```javascript
+
+const shouldFlatten = false;
+
+fillForm(sourcePDF, data, ["needs_appearances"])
+    .then((outputStream) {
+        // etc, same as above
+    })
+```
+
 #### 2. Generate FDF Template from PDF
 
 ```javascript
