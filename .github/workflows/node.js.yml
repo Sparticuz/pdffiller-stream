@@ -15,16 +15,16 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x, 22.x, latest]
+        node-version: [18.x, 22.x, latest]
 
     steps:
       - name: Install pdftk-java 3.3.3, native image
         run: sudo curl https://gitlab.com/api/v4/projects/5024297/packages/generic/pdftk-java/v3.3.3/pdftk --output /bin/pdftk
       - name: Set pdftk permissions
         run: sudo chmod +x /bin/pdftk
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
