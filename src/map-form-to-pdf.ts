@@ -1,6 +1,6 @@
 import type { FormField } from "./generate-field-json.js";
 
-import { convertFieldJsonToFdf } from "./convert-field-json-to-fdf.js";
+import { convFieldJson2FDF } from "./convert-field-json-to-fdf.js";
 
 // https://github.com/lodash/lodash/blob/master/mapKey.js
 /**
@@ -40,12 +40,12 @@ const mapKeys = (
  * @param {FormField[]} formFields - The fields in the PDF
  * @param {*} convMap - The conversion matrix
  */
-export const mapFormToPdf = (
+export const mapForm2PDF = (
   formFields: FormField[],
   convMap: Record<string, string>,
 ): Record<string, string> =>
   mapKeys(
-    convertFieldJsonToFdf(formFields),
+    convFieldJson2FDF(formFields),
     // @ts-expect-error I'm not sure why this is not type safe
     (value: unknown, key: number | string) => {
       if (Object.prototype.hasOwnProperty.call(convMap, key)) {

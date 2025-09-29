@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 
-import { generateFdfTemplate } from "../src/generate-fdf-template.js";
+import { generateFDFTemplate } from "../src/generate-fdf-template.js";
 import { fdfTemplate } from "./_expected-data.js";
 
 const sourcePDF = "test/test.pdf";
@@ -17,11 +17,11 @@ test("should generate a FDF Template as expected", async () => {
     last_name: "",
     nascar: "",
   };
-  const fdf = await generateFdfTemplate(sourcePDF);
+  const fdf = await generateFDFTemplate(sourcePDF);
   expect(fdf).toEqual(expected);
 });
 
 test("should generate a large FDF Template with no errors", async () => {
-  const fdf = await generateFdfTemplate(source2PDF);
+  const fdf = await generateFDFTemplate(source2PDF);
   expect(fdf).toEqual(fdfTemplate);
 });

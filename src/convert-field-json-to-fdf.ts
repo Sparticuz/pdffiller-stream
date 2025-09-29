@@ -4,7 +4,7 @@ import type { FormField } from "./generate-field-json.js";
  * @param formFields An array of Form Fields
  * @returns An object with converted Form Fields
  */
-export const convertFieldJsonToFdf = (
+export const convFieldJson2FDF = (
   formFields: FormField[],
 ): Record<string, string> => {
   const fields: Record<string, string> = {};

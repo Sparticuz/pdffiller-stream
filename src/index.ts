@@ -37,7 +37,7 @@ const toFile = (promised: Promise<Readable>, path: string): Promise<boolean> =>
  * @param extraArguments
  * @returns A promise of a Readable stream
  */
-const FillPDF = (
+export const FillForm = (
   sourceFile: string,
   fieldValues: Record<string, string>,
   extraArguments: false | string[] = ["flatten"],
@@ -94,17 +94,9 @@ const FillPDF = (
   promised.toFile = toFile.bind(undefined, promised);
   return promised;
 };
-export default FillPDF;
 
-export {
-  convertFieldJsonToFdf,
-  convertFieldJsonToFdf as convFieldJson2FDF,
-} from "./convert-field-json-to-fdf.js";
-export {
-  generateFdfTemplate,
-  generateFdfTemplate as generateFDFTemplate,
-} from "./generate-fdf-template.js";
-export {
-  mapFormToPdf as mapForm2PDF,
-  mapFormToPdf,
-} from "./map-form-to-pdf.js";
+export default FillForm;
+
+export { convFieldJson2FDF } from "./convert-field-json-to-fdf.js";
+export { generateFDFTemplate } from "./generate-fdf-template.js";
+export { mapForm2PDF } from "./map-form-to-pdf.js";

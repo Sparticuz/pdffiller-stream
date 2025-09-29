@@ -5,7 +5,7 @@ import { generateFieldJson } from "./generate-field-json.js";
  * @param sourceFile
  * @returns A json object
  */
-export const generateFdfTemplate = async (
+export const generateFDFTemplate = async (
   sourceFile: string,
 ): Promise<Record<string, string>> => {
   const formFields = await generateFieldJson(sourceFile);

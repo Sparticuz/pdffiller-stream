@@ -2,7 +2,7 @@ import { expect, test } from "vitest";
 
 import type { FormField } from "../src/generate-field-json.js";
 
-import { convertFieldJsonToFdf } from "../src/convert-field-json-to-fdf.js";
+import { convFieldJson2FDF } from "../src/convert-field-json-to-fdf.js";
 
 test("Should change the boolean to a 'Yes/Off'", () => {
   const expected = {
@@ -59,6 +59,6 @@ test("Should change the boolean to a 'Yes/Off'", () => {
     },
   ] as FormField[];
 
-  const results = convertFieldJsonToFdf(input);
+  const results = convFieldJson2FDF(input);
   expect(results).toEqual(expected);
 });

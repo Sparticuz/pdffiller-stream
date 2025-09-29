@@ -2,7 +2,7 @@ import { expect, test } from "vitest";
 
 import type { FormField } from "../src/generate-field-json.js";
 
-import { mapFormToPdf } from "../src/map-form-to-pdf.js";
+import { mapForm2PDF } from "../src/map-form-to-pdf.js";
 
 test("Should convert formJson to FDF data as expected", () => {
   const convMap = {
@@ -69,6 +69,6 @@ test("Should convert formJson to FDF data as expected", () => {
     last_name: "John",
     nascar: "Off",
   };
-  const convertedFDF = mapFormToPdf(data, convMap);
+  const convertedFDF = mapForm2PDF(data, convMap);
   expect(convertedFDF).toEqual(expected);
 });
