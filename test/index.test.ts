@@ -31,7 +31,7 @@ test("should throw when the sourcePDF doesn't exist", async () => {
 });
 
 test("should use toFile to create a completely filled PDF that is read-only", async () => {
-  const destinationPdf = "test/test_complete_filled.pdf";
+  const destinationPdf = "test/out/test_complete_filled.pdf";
   // @ts-expect-error I'm overloading
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   await fillForm(sourcePDF, data).toFile(destinationPdf);
@@ -44,7 +44,7 @@ test("should use toFile to create a completely filled PDF that is read-only", as
  * See #11
  */
 test("should handle expanded utf characters and diacritics", async () => {
-  const destinationPdf = "test/test_complete_diacritics.pdf";
+  const destinationPdf = "test/out/test_complete_diacritics.pdf";
   const diacriticsData = {
     ...data,
     first_name: "मुख्यपृष्ठम्",
@@ -62,7 +62,7 @@ test("should handle expanded utf characters and diacritics", async () => {
 });
 
 test("should create an unflattened PDF with unfilled fields remaining", async () => {
-  const destinationPdf = "test/test_complete_not_flattened.pdf";
+  const destinationPdf = "test/out/test_complete_not_flattened.pdf";
   const filledData = {
     first_name: "Jerry",
   };
@@ -74,7 +74,7 @@ test("should create an unflattened PDF with unfilled fields remaining", async ()
 });
 
 test("should return the values of a filled, but not flattened, pdf", async () => {
-  const destinationPdf = "test/test_complete_not_flattened.pdf";
+  const destinationPdf = "test/out/test_complete_not_flattened.pdf";
   const fdf = await generateFieldJson(destinationPdf);
   let passed = false;
   for (const field of fdf) {

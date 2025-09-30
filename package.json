@@ -29,7 +29,7 @@
   "scripts": {
     "build": "rm -rf dist/** && tsc -p tsconfig.build.json",
     "lint": "eslint .",
-    "test": "mkdir -p test/out && vitest run --coverage"
+    "test": "rm -rf test/out/** && mkdir -p test/out && vitest run --coverage"
   },
   "devDependencies": {
     "@sparticuz/eslint-config": "^9.3.10",
