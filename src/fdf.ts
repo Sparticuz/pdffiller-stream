@@ -2,16 +2,22 @@
  * Escapes backslashes and parens, also deals with null or undefined values
  * @param value The value that needs to be escaped
  */
-const escapeString = (value: string | null | undefined) => {
-  if (value === null || value === undefined) {
-    return "";
+const escapeString = (value: unknown) => {
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "bigint" ||
+    typeof value === "boolean"
+  ) {
+    Buffer.from(
+      value
+        .toString()
+        .replaceAll("\\", "\\\\")
+        .replaceAll("(", String.raw`\(`)
+        .replaceAll(")", String.raw`\)`),
+    ).toString("utf8");
   }
-  return Buffer.from(
-    value
-      .replaceAll("\\", "\\\\")
-      .replaceAll("(", String.raw`\(`)
-      .replaceAll(")", String.raw`\)`),
-  ).toString("utf8");
+  return Buffer.from("").toString("utf8");
 };
 
 /**
