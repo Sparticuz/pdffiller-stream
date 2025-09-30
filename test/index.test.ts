@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
 import { Readable } from "node:stream";
 import { expect, test } from "vitest";
 
@@ -5,6 +7,16 @@ import { expect, test } from "vitest";
 // If it's flattened, we'll assume it was filled out properly.
 import { generateFieldJson } from "../src/generate-field-json.js";
 import fillForm from "../src/index.js";
+
+/**
+ * Calculate SHA256 hash of a file
+ */
+async function getFileHash(filePath: string): Promise<string> {
+  // We are specifing the filePath directly so this is safe
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  const fileBuffer = await readFile(filePath);
+  return createHash("sha256").update(fileBuffer).digest("hex");
+}
 
 const sourcePDF = "test/test.pdf";
 
@@ -37,6 +49,12 @@ test("should use toFile to create a completely filled PDF that is read-only", as
   await fillForm(sourcePDF, data).toFile(destinationPdf);
   const roFdf = await generateFieldJson(destinationPdf);
   expect(roFdf.length).toBe(0);
+
+  // Verify the PDF was filled correctly by checking its hash
+  const hash = await getFileHash(destinationPdf);
+  expect(hash).toBe(
+    "3d8927013f485ecec7b24396adca050a59b53fcd0cf23ed2c0e8910d845c8b09",
+  );
 });
 
 /**
@@ -59,6 +77,12 @@ test("should handle expanded utf characters and diacritics", async () => {
   ]).toFile(destinationPdf);
   const fdf = await generateFieldJson(destinationPdf);
   expect(fdf.length).not.toBe(0);
+
+  // Verify the PDF was filled correctly by checking its hash
+  const hash = await getFileHash(destinationPdf);
+  expect(hash).toBe(
+    "c281bf0233c1d5f1cbb081559b5e3b3149426b2ae73b8e7816f6c86653608af7",
+  );
 });
 
 test("should create an unflattened PDF with unfilled fields remaining", async () => {
@@ -71,11 +95,17 @@ test("should create an unflattened PDF with unfilled fields remaining", async ()
   await fillForm(sourcePDF, filledData, false).toFile(destinationPdf);
   const rwFdf = await generateFieldJson(destinationPdf);
   expect(rwFdf.length).not.toBe(0);
+
+  // Verify the PDF was filled correctly by checking its hash
+  const hash = await getFileHash(destinationPdf);
+  expect(hash).toBe(
+    "3ee4ea36c4955f7c87323315b0e220c3baa0932de11430a0ca66c28aa7a7b3e1",
+  );
 });
 
 test("should return the values of a filled, but not flattened, pdf", async () => {
-  const destinationPdf = "test/out/test_complete_not_flattened.pdf";
-  const fdf = await generateFieldJson(destinationPdf);
+  const sourcePdf = "test/out/test_complete_not_flattened.pdf";
+  const fdf = await generateFieldJson(sourcePdf);
   let passed = false;
   for (const field of fdf) {
     if (field.title === "first_name") {

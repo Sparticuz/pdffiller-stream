@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 
 import { generateFDFTemplate } from "../src/generate-fdf-template.js";
+// eslint-disable-next-line n/no-missing-import
 import { fdfTemplate } from "./_expected-data.js";
 
 const sourcePDF = "test/test.pdf";

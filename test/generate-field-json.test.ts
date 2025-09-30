@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 
 import { generateFieldJson } from "../src/generate-field-json.js";
+// eslint-disable-next-line n/no-missing-import
 import { formFields } from "./_expected-data.js";
 
 const sourcePDF = "test/test.pdf";
