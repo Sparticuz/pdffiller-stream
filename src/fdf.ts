@@ -9,7 +9,7 @@ const escapeString = (value: unknown) => {
     typeof value === "bigint" ||
     typeof value === "boolean"
   ) {
-    Buffer.from(
+    return Buffer.from(
       value
         .toString()
         .replaceAll("\\", "\\\\")
